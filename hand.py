@@ -217,7 +217,7 @@ def find_fingers(ctx):
 
 	ctx.num_fingers = 0
 
-	if type(ctx.contour) =='bool' or not type(ctx.hull) =='bool':	
+	if type(ctx.contour) =='bool' or type(ctx.hull) =='bool':	
 		return
 
 
@@ -279,8 +279,7 @@ if __name__ == '__main__':
 		if not rval:
 			print "cannot read camera"
 			sys.exit(1)
-		else:
-			ctx.image_o = cv.fromarray(ctx.image)
+
 
 		filter_and_threshold(ctx)
 		find_contour(ctx)
