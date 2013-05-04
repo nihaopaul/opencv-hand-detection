@@ -1,4 +1,10 @@
+Note: porting to Python and using cv2 not cv
+
+
+Original:
 Simple code for hand and finger detection using OpenCV.
 
 Example video:
 http://www.youtube.com/watch?v=9NzmeEml3Wk
+
+
