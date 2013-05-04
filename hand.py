@@ -10,7 +10,7 @@ VIDEO_FILE = "/tmp/ramdisk/video.avi"
 VIDEO_FORMAT = cv.CV_FOURCC('I', 'Y', 'U', 'V')
 NUM_FINGERS = 5
 NUM_DEFECTS = 8
-
+SHOW_HAND_CONTOUR = 1
 
 
 class ctx:
@@ -135,7 +135,7 @@ def toIpl(img):
 	return cv.fromarray(img)
 
 def find_contour(ctx):
-	contour = None
+	contour = False
 	max_area = 0.0
 	ctx.temp_image1 = toIpl(ctx.temp_image1)
 	ctx.thr_image = toIpl(ctx.thr_image)
@@ -157,14 +157,18 @@ def find_contour(ctx):
 			max_area = area
 			contour = tmp
 
+	'''this doesnt run '''
 
-	if type(contour) == 'numpy.ndarray':
+	if type(contour) != 'bool':
+		print type(contour)
 		#Python: cv2.approxPolyDP(curve, epsilon, closed[, approxCurve])  approxCurve
 		#C: CvSeq* cvApproxPoly(const void* src_seq, int header_size, CvMemStorage* storage, int method, double eps, int recursive=0 )
 		#contour = cv.cvApproxPoly(contour, sizeof(cv.CvContour), ctx.contour_st, cv.CV_POLY_APPROX_DP, 2, 1)
+		print type(contour)
+		cv2.approxPolyDP(contour, 2, True, ctx.contour)
 
-		contour = cv2.approxPolyDP(contour, 2, True)
-		ctx.contour = contour
+
+
 
 def find_convex_hull(ctx):
 	defects, defect_array = False, False
@@ -217,12 +221,15 @@ def find_fingers(ctx):
 
 	ctx.num_fingers = 0
 
-	if type(ctx.contour) =='bool' or type(ctx.hull) =='bool':	
-		return
+	if not type(ctx.contour) == 'bool':	
+		return False
 
+	if not type(ctx.hull) == 'bool':
+		return False
 
-	n = len(ctx.contour)
-	print n
+	print  type(ctx.contour)
+	print  type(ctx.hull)
+
 
 	for points in  ctx.contour:
 		dist = False
