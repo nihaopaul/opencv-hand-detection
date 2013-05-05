@@ -164,9 +164,10 @@ def find_contour(ctx):
 		#Python: cv2.approxPolyDP(curve, epsilon, closed[, approxCurve])  approxCurve
 		#C: CvSeq* cvApproxPoly(const void* src_seq, int header_size, CvMemStorage* storage, int method, double eps, int recursive=0 )
 		#contour = cv.cvApproxPoly(contour, sizeof(cv.CvContour), ctx.contour_st, cv.CV_POLY_APPROX_DP, 2, 1)
-		print type(contour)
-		cv2.approxPolyDP(contour, 2, True, ctx.contour)
-
+		try:
+			cv2.approxPolyDP(contour, 2, False, ctx.contour)
+		except ValueError:
+			print 'error, unknown'
 
 
 
@@ -180,7 +181,7 @@ def find_convex_hull(ctx):
 		return
 
 	#ctx.hull = cv.cvConvexHull2(ctx.contour, ctx.hull_st, cv.CV_CLOCKWISE, 0)
-	cv2.convexHull(ctx.contour, ctx.hull, 1)
+	cv2.convexHull(ctx.contour, ctx.hull_st, 1, ctx.hull)
 
 	#Python: cv2.convexHull(points[, hull[, clockwise[, returnPoints]]])  hull
 	#C: CvSeq* cvConvexHull2(const CvArr* input, void* hull_storage=NULL, int orientation=CV_CLOCKWISE, int return_points=0 )
